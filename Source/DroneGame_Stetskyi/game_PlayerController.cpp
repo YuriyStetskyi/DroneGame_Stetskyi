@@ -23,6 +23,7 @@ void Agame_PlayerController::BeginPlay()
 	Super::BeginPlay();
 	playerCharacter = FindPlayerCharacter();
 	Possess(playerCharacter);
+	playerState = GetPlayerState<Agame_PlayerState>();
 }
 
 void Agame_PlayerController::Tick(float DeltaTime)
@@ -170,10 +171,14 @@ void Agame_PlayerController::MoveUp(float value)
 
 void Agame_PlayerController::Shoot()
 {
-	projectileFlightTrajectory = GetFlightTrajectory();
-	if (projectileFlightTrajectory != FVector::ZeroVector)
+	if (playerState->HasAmmo())
 	{
-		playerCharacter->gunMuzzle->Spawn(projectileFlightTrajectory);
+		projectileFlightTrajectory = GetFlightTrajectory();
+		if (projectileFlightTrajectory != FVector::ZeroVector)
+		{
+			playerCharacter->gunMuzzle->Spawn(projectileFlightTrajectory);
+		}
+		playerState->DepleteAmmo(1);
 	}
 }
 
@@ -191,12 +196,12 @@ FVector Agame_PlayerController::GetFlightTrajectory()
 		bool actorHit = GetWorld()->LineTraceSingleByChannel(hit, start, end, ECC_Camera, FCollisionQueryParams(), FCollisionResponseParams());
 		if (actorHit)
 		{
-			DrawDebugLine(GetWorld(), gunLocation, hit.Location, FColor::Green, false, 5.0f, 0.0f, 3.0f);
+			//DrawDebugLine(GetWorld(), gunLocation, hit.Location, FColor::Green, false, 5.0f, 0.0f, 3.0f);
 			return hit.Location - gunLocation;
 		}
 		else
 		{
-			DrawDebugLine(GetWorld(), gunLocation, end, FColor::Red, false, 5.0f, 0.0f, 3.0f);
+			//DrawDebugLine(GetWorld(), gunLocation, end, FColor::Red, false, 5.0f, 0.0f, 3.0f);
 			return end - gunLocation;
 		}
 	}

@@ -20,7 +20,7 @@ Agame_PlayerCharacter::Agame_PlayerCharacter()
 		gun->SetupAttachment(camera);
 		gun->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	}
-
+	entityType = EEntity::PLAYER;
 	
 }
 

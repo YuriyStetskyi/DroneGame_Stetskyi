@@ -9,6 +9,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "game_Enums.h"
 #include "game_ProjectileSpawner.h"
 #include "game_PlayerCharacter.generated.h"
 
@@ -50,6 +51,11 @@ public:
 
 	/** Finds gun muzzle in scene */
 	Agame_ProjectileSpawner* FindGunMuzzle();
+
+	/** Declares entity type responsible for how 
+	 *	it will interact with other entities */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "cpp_EntityType")
+	EEntity entityType;
 
 	UPROPERTY(EditAnywhere, Category = "cpp_Testing")
 	FVector cameraForwVector;

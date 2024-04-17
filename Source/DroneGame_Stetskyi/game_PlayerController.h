@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "game_PlayerCharacter.h"
+#include "game_PlayerState.h"
+#include "game_Enums.h"
 #include "Kismet/GameplayStatics.h"
 #include "DrawDebugHelpers.h"
 #include "game_PlayerController.generated.h"
@@ -119,4 +121,10 @@ public:
 	/** Flight trajectory from a gun to a position pointed at by crosshair */
 	FVector projectileFlightTrajectory;
 
+
+
+	// STATES /////////////////////////////////////////////
+
+	/** Stores the data connected to the player: health, ammo, current weapon etc. */
+	Agame_PlayerState* playerState;
 };

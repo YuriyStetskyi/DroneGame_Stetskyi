@@ -9,6 +9,7 @@ Agame_GameMode::Agame_GameMode()
 
 	PlayerControllerClass = Agame_PlayerController::StaticClass();
 	DefaultPawnClass = Agame_PlayerController::StaticClass();
+	PlayerStateClass = Agame_PlayerState::StaticClass();
 }
 
 void Agame_GameMode::BeginPlay()
