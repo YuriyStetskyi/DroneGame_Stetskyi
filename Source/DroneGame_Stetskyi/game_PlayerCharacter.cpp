@@ -16,11 +16,17 @@ Agame_PlayerCharacter::Agame_PlayerCharacter()
 		SetRootComponent(capsuleCollider);
 		camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 		camera->SetupAttachment(capsuleCollider);
+		bodyMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body"));
+		bodyMesh->SetupAttachment(capsuleCollider);
 		gun = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Gun"));
 		gun->SetupAttachment(camera);
 		gun->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+		muzzleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Muzzle"));
+		muzzleMesh->SetupAttachment(gun);
 	}
 	entityType = EEntity::PLAYER;
+	
+	lastFrameDamage = 0;
 	
 }
 
@@ -28,18 +34,12 @@ void Agame_PlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	gunMuzzle = FindGunMuzzle();
-
-	/*if (GetWorld())
+	if (GetWorld())
 	{
-		gunMuzzle = GetWorld()->SpawnActor<Agame_ProjectileSpawner>();
-	}*/
-
-	if (gunMuzzle)
-	{
-		gunMuzzle->spawnerMesh->AddWorldOffset(FVector(100, 0, 0));
-		gunMuzzle->AttachToComponent(gun, FAttachmentTransformRules::SnapToTargetIncludingScale);
+		projectileSpawner = GetWorld()->SpawnActor<Agame_ProjectileSpawner>(BP_projectileSpawner);
+		projectileSpawner->AttachToComponent(muzzleMesh, FAttachmentTransformRules::SnapToTargetIncludingScale);
 	}
+	capsuleCollider->OnComponentBeginOverlap.AddDynamic(this, &Agame_PlayerCharacter::OnOverlapBegin);
 }
 
 void Agame_PlayerCharacter::Tick(float DeltaTime)
@@ -52,20 +52,12 @@ void Agame_PlayerCharacter::Tick(float DeltaTime)
 void Agame_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
-Agame_ProjectileSpawner* Agame_PlayerCharacter::FindGunMuzzle()
+void Agame_PlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	TArray<AActor*> projectileSpawners;
-	UGameplayStatics::GetAllActorsOfClass(this, Agame_ProjectileSpawner::StaticClass(), projectileSpawners);
-	if (!projectileSpawners.IsEmpty())
+	if (((Agame_Projectile*)OtherActor)->projectileType == EProjectileType::ENEMYPROJECTILE)
 	{
-		return (Agame_ProjectileSpawner*)projectileSpawners[0];
-	}
-	else
-	{
-		return nullptr;
+		lastFrameDamage = ((Agame_Projectile*)OtherActor)->projectileDamage;
 	}
 }
-

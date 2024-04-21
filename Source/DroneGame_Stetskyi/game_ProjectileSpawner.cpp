@@ -9,7 +9,6 @@ Agame_ProjectileSpawner::Agame_ProjectileSpawner()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-
 	spawnerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("spawnerMesh"));
 	if (spawnerMesh)
 	{

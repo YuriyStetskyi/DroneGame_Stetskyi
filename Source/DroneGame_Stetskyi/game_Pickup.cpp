@@ -71,11 +71,11 @@ void Agame_Pickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 
 bool Agame_Pickup::ReplenishAmmo(Agame_PlayerCharacter* player, int amount)
 {
-	return ((Agame_PlayerController*)player->GetController())->playerState->ReplenishAmmo(amount);
+	return ((Agame_PlayerController*)player->GetController())->plState->ReplenishAmmo(amount);
 }
 
 bool Agame_Pickup::ReplenishHealth(Agame_PlayerCharacter* player, int amount)
 {
-	return ((Agame_PlayerController*)player->GetController())->playerState->ReplenishHealth(amount);
+	return ((Agame_PlayerController*)player->GetController())->plState->ReplenishHealth(amount);
 }
 

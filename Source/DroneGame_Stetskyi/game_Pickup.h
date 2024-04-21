@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
-#include "game_Enums.h"
+#include "Utility/game_enums.h"
 #include "game_PlayerController.h"
 #include "game_PlayerCharacter.h"
 #include "game_Pickup.generated.h"

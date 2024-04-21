@@ -25,9 +25,11 @@ public:
 	int playerHealth;
 
 	/** Players minimum health */
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, category = "cpp_State")
 	int minHealth;
 
 	/** Players maximum health */
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, category = "cpp_State")
 	int maxHealth;
 
 	/** Players current ammo */
@@ -35,9 +37,11 @@ public:
 	int playerAmmo;
 	
 	/** Players minimum ammo */
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, category = "cpp_State")
 	int minAmmo;
 
 	/** Players maximum ammo */
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, category = "cpp_State")
 	int maxAmmo;
 
 	/** Depletes ammo on "Shoot" */
@@ -47,7 +51,7 @@ public:
 	*	@return Returns true if replenished ammo successfully */
 	bool ReplenishAmmo(int amount);
 
-	/** Retruns true if playerState has ammo */
+	/** Retruns true if plState has ammo */
 	bool HasAmmo();
 
 	/** Depletes ammo on damaged */
@@ -56,4 +60,12 @@ public:
 	/** Replenish Health with specified amount, but not more than max health
 	*	@return Returns true if replenished health successfully */
 	bool ReplenishHealth(int amount);
+
+	/** True if player is currently alive */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, category = "cpp_State")
+	bool isAlive;
+
+	void SetRespawnLocation(FVector location, FRotator rotation);
+	
+	FTransform spawnLocation;
 };

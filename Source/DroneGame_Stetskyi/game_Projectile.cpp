@@ -16,6 +16,8 @@ Agame_Projectile::Agame_Projectile()
 	projectileMovement->ProjectileGravityScale = 0.0f;
 	projectileMovement->bInitialVelocityInLocalSpace = false;
 	projectileMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap); //just set it in BP
+	projectileType = EProjectileType::DEFAULT;
+	projectileDamage = 25;
 }
 
 // Called when the game starts or when spawned

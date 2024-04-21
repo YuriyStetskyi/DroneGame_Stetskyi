@@ -6,9 +6,10 @@
 #include "GameFramework/PlayerController.h"
 #include "game_PlayerCharacter.h"
 #include "game_PlayerState.h"
-#include "game_Enums.h"
+#include "Utility/game_enums.h"
 #include "Kismet/GameplayStatics.h"
 #include "DrawDebugHelpers.h"
+#include "Components/ActorComponent.h"
 #include "game_PlayerController.generated.h"
 
 /**
@@ -30,7 +31,12 @@ public:
 	virtual void SetupInputComponent() override;
 
 	/** Main player actor to posess */
+	UPROPERTY (EditAnywhere, BlueprintReadWrite, Category = "cpp_PlayerCharacter")
 	Agame_PlayerCharacter* playerCharacter;
+
+	/** Main player actor to posess */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "cpp_PlayerCharacter")
+	TSubclassOf<Agame_PlayerCharacter> BP_playerCharacter;
 
 	/** Finds player actor to posess*/
 	Agame_PlayerCharacter* FindPlayerCharacter();
@@ -80,6 +86,10 @@ public:
 
 	// CAMERA MOVEMENT //////////////////////////////////////
 
+	/** Camera sensitivity (speed) */
+	UPROPERTY(VisibleAnywhere, Category = "cpp_Camera")
+	float cameraSensitivity;
+
 	/** Updated via mouse/controller input */
 	UPROPERTY(VisibleAnywhere, Category = "cpp_Camera")
 	float cameraPitch;
@@ -126,5 +136,15 @@ public:
 	// STATES /////////////////////////////////////////////
 
 	/** Stores the data connected to the player: health, ammo, current weapon etc. */
-	Agame_PlayerState* playerState;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "cpp_States")
+	Agame_PlayerState* plState;
+
+
+	// HEALTH SYSTEM //////////////////////////////////////
+	void GetDamagedOnHit(Agame_PlayerCharacter* character);
+
+	void DieOn0HP();
+
+	UFUNCTION (BlueprintCallable)
+	void Respawn();
 };

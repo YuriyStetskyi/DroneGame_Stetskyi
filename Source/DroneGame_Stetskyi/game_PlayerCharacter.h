@@ -9,8 +9,9 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "game_Enums.h"
+#include "Utility/game_enums.h"
 #include "game_ProjectileSpawner.h"
+#include "game_component_gunMuzzle.h"
 #include "game_PlayerCharacter.generated.h"
 
 UCLASS()
@@ -32,7 +33,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-
 	/** Players capsule collider */
 	UPROPERTY(EditAnywhere, Category = "cpp_Components")
 	UCapsuleComponent* capsuleCollider;
@@ -41,16 +41,25 @@ public:
 	UPROPERTY(EditAnywhere, Category = "cpp_Components")
 	UCameraComponent* camera;
 
+	/** Mesh of players drone body */
+	UPROPERTY(EditAnywhere, Category = "cpp_Components")
+	UStaticMeshComponent* bodyMesh;
+
 	/** Guns muzzle that spawns projectiles */
 	UPROPERTY(EditAnywhere, Category = "cpp_Components")
-	Agame_ProjectileSpawner* gunMuzzle;
+	UStaticMeshComponent* muzzleMesh;
+
+	/** Actor placed on top of muzzle that spawns projectiles (BLUEPRINT) */
+	UPROPERTY(EditAnywhere, Category = "cpp_Components")
+	TSubclassOf<Agame_ProjectileSpawner> BP_projectileSpawner;
+
+	/** Reference to Blueprint actor that spawns projectiles */
+	UPROPERTY(EditAnywhere, Category = "cpp_Components")
+	Agame_ProjectileSpawner* projectileSpawner;
 
 	/** Players gun */
 	UPROPERTY(EditAnywhere, Category = "cpp_Components")
 	UStaticMeshComponent* gun;
-
-	/** Finds gun muzzle in scene */
-	Agame_ProjectileSpawner* FindGunMuzzle();
 
 	/** Declares entity type responsible for how 
 	 *	it will interact with other entities */
@@ -60,4 +69,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "cpp_Testing")
 	FVector cameraForwVector;
 
+	/* Can be subscribed to OnComponentOverlap event
+	   Handles all required information when component
+	   starts overlapping with some other actor */
+	UFUNCTION()
+	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	int lastFrameDamage;
 };

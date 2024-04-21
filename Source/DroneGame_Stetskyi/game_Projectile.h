@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Utility/game_Enums.h"
 #include "game_Projectile.generated.h"
 
 UCLASS()
@@ -42,4 +43,11 @@ public:
 	UFUNCTION()
 	void Detector_OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "cpp_Other")
+	EProjectileType projectileType;
+
+	int projectileDamage;
+	// make a field "pawn to target" which will change
+	// projectiles behaviour depending on pawn it overlapped.
+	// so that if it overlaps different things it deals different damage.
 };

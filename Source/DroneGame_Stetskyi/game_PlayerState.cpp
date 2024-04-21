@@ -13,7 +13,7 @@ Agame_PlayerState::Agame_PlayerState()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	
+	isAlive = true;
 }
 
 void Agame_PlayerState::BeginPlay()
@@ -84,4 +84,9 @@ bool Agame_PlayerState::ReplenishHealth(int amount)
 	{
 		return false;
 	}
+}
+
+void Agame_PlayerState::SetRespawnLocation(FVector location, FRotator rotation)
+{
+	spawnLocation = FTransform(rotation, location);
 }

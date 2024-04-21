@@ -9,6 +9,7 @@ Agame_PlayerController::Agame_PlayerController()
 	inputThreshold(0.2f),
 	maxSpeed(1200.0f),
 	acceleration(3.0f),
+	cameraSensitivity(50),
 	cameraPitch(0.0f),
 	cameraYaw(0.0f)
 {
@@ -23,14 +24,20 @@ void Agame_PlayerController::BeginPlay()
 	Super::BeginPlay();
 	playerCharacter = FindPlayerCharacter();
 	Possess(playerCharacter);
-	playerState = GetPlayerState<Agame_PlayerState>();
+	plState = GetPlayerState<Agame_PlayerState>();
+	plState->SetRespawnLocation(playerCharacter->GetActorLocation(), playerCharacter->GetActorRotation());
 }
 
 void Agame_PlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	MoveOnInput(playerCharacter, forwardInput, rightInput, upInput, DeltaTime);
-	RotateCameraOnInput(playerCharacter, cameraPitch, cameraYaw, DeltaTime);
+	if (plState->isAlive)
+	{
+		MoveOnInput(playerCharacter, forwardInput, rightInput, upInput, DeltaTime);
+		RotateCameraOnInput(playerCharacter, cameraPitch, cameraYaw, DeltaTime);
+		GetDamagedOnHit(playerCharacter);
+		DieOn0HP();
+	}
 }
 
 void Agame_PlayerController::SetupInputComponent()
@@ -171,14 +178,14 @@ void Agame_PlayerController::MoveUp(float value)
 
 void Agame_PlayerController::Shoot()
 {
-	if (playerState->HasAmmo())
+	if (plState->HasAmmo() && plState->isAlive)
 	{
 		projectileFlightTrajectory = GetFlightTrajectory();
 		if (projectileFlightTrajectory != FVector::ZeroVector)
 		{
-			playerCharacter->gunMuzzle->Spawn(projectileFlightTrajectory);
+			playerCharacter->projectileSpawner->Spawn(projectileFlightTrajectory);
 		}
-		playerState->DepleteAmmo(1);
+		plState->DepleteAmmo(1);
 	}
 }
 
@@ -207,3 +214,34 @@ FVector Agame_PlayerController::GetFlightTrajectory()
 	}
 	return FVector::ZeroVector;
 }
+
+void Agame_PlayerController::GetDamagedOnHit(Agame_PlayerCharacter* character)
+{
+	if (character->lastFrameDamage != 0)
+	{
+		plState->DepleteHealth(character->lastFrameDamage);
+		character->lastFrameDamage = 0;
+	}
+}
+
+void Agame_PlayerController::DieOn0HP()
+{
+	if (plState->playerHealth <= 0)
+	{
+		plState->isAlive = false;
+		playerCharacter->Destroy();
+	}
+}
+
+void Agame_PlayerController::Respawn()
+{
+	//FTransform SpawnTransform = FTransform(FRotator::ZeroRotator, FVector(500.0f, 500.0f, 500.0f));
+
+	playerCharacter = GetWorld()->SpawnActor<Agame_PlayerCharacter>(BP_playerCharacter, plState->spawnLocation);
+	Possess(playerCharacter);
+	plState->isAlive = true;
+	plState->playerHealth = plState->maxHealth;
+	plState->playerAmmo = plState->maxAmmo;
+
+}
+
