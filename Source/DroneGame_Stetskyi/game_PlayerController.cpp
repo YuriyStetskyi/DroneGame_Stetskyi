@@ -151,7 +151,7 @@ void Agame_PlayerController::RotateCameraOnInput(Agame_PlayerCharacter* characte
 		float result = character->camera->GetRelativeRotation().Pitch + pitch;
 		if (result <= 90 && result >= -90)
 		{
-			character->camera->AddLocalRotation(FRotator(pitch, 0, 0));	//move camera. not whole obeject. otherwise wont work
+			character->camera->AddLocalRotation(FRotator(pitch, 0, 0));	
 		}
 	}
 

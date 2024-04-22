@@ -34,6 +34,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+
+	// COMPONENTS ////////////////////////////////////////////////////////
+
 	/** Main enemy body mesh */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "cpp_Components")
 	UStaticMeshComponent* bodyMesh;
@@ -62,6 +66,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "cpp_Components")
 	UCapsuleComponent* capsuleCollider;
 
+
+
+	// OTHER //////////////////////////////////////////////////////////
+
 	/* Can be subscribed to OnComponentOverlap event
 	   Handles all required information when component
 	   starts overlapping with some other actor */
@@ -77,10 +85,20 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "cpp_EntityType")
 	EEntity entityType;
 
+
+
+	// HEALTH //////////////////////////////////////////////////////////
+
+	/** Enemies helath. Enemy dies when health = 0 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "cpp_Other")
 	int health;
 
+	/** Damage dealth to actor last frame. If 0 - actor wasnt damaged */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "cpp_Other")
 	int lastFrameDamage;
 
+	/** Destroys actor if health = 0 */
+	UFUNCTION()
 	void DieOn0HP();
 
 };

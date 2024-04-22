@@ -26,6 +26,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+
+	// COMPONENTS /////////////////////////////////////////////
+
 	/** Mesh of the projectile (sphere) */
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* projectileMesh;
@@ -33,6 +37,10 @@ public:
 	/** Projectiles movement component */
 	UPROPERTY(EditAnywhere)
 	UProjectileMovementComponent* projectileMovement;
+
+
+
+	// OTHER //////////////////////////////////////////////////
 
 	/** Sets direction in which projectile will move */
 	void SetMovementDirection(FVector movementDirection);
@@ -43,11 +51,12 @@ public:
 	UFUNCTION()
 	void Detector_OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	/** Who projectile was shot by. ( Enemy or Player ) */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "cpp_Other")
 	EProjectileType projectileType;
 
+	/** Damage this projectile will deal on impact */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "cpp_Other")
 	int projectileDamage;
-	// make a field "pawn to target" which will change
-	// projectiles behaviour depending on pawn it overlapped.
-	// so that if it overlaps different things it deals different damage.
+
 };

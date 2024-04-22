@@ -4,8 +4,6 @@
 #include "game_EnemyAIController.h"
 
 
-
-
 void Agame_EnemyAIController::ShootAtDirection(FVector shootDirection)
 {
 	if (shootDirection != FVector::ZeroVector)

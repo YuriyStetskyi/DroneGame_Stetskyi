@@ -27,6 +27,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+
+	// TYPE ////////////////////////////////////////////////////////////
+
 	/** This determines what behaviour player will manifest on collision */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "cpp_PickupType")
 	EPickup pickupType;
@@ -46,18 +50,26 @@ public:
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+
+
+	// PICKUP PARAMS //////////////////////////////////////////////////
+
 	/** Replenish amount for ammo pickup */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "cpp_Other")
 	int replenishAmount_AMMO;
 
 	/** Replenish amount for health pickup */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "cpp_Other")
 	int replenishAmount_HEALTH;
 
 	/** Replenishes specified amount of ammo for a player 
 	*	@return Returns true if replenished ammo successfully */
+	UFUNCTION(BlueprintCallable)
 	bool ReplenishAmmo(Agame_PlayerCharacter* player, int amount);
 
 	/** Replenishes specified amount of health for a player 
 	*	@return Returns true if replenished health successfully */
+	UFUNCTION(BlueprintCallable)
 	bool ReplenishHealth(Agame_PlayerCharacter* player, int amount);
 
 };

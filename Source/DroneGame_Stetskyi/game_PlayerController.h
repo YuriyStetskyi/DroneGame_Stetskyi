@@ -30,6 +30,10 @@ public:
 	/*  Called to bind functionality to input */
 	virtual void SetupInputComponent() override;
 
+	// POSESSED PAWN ////////////////////////////////////////////
+
+
+
 	/** Main player actor to posess */
 	UPROPERTY (EditAnywhere, BlueprintReadWrite, Category = "cpp_PlayerCharacter")
 	Agame_PlayerCharacter* playerCharacter;
@@ -120,7 +124,7 @@ public:
 
 
 
-	// SHOOTING ///////////////////////////////////////////
+	// COMBAT ///////////////////////////////////////////
 
 	/** Shoots a projectile */
 	void Shoot();
@@ -140,11 +144,16 @@ public:
 	Agame_PlayerState* plState;
 
 
+
 	// HEALTH SYSTEM //////////////////////////////////////
+
+	/** If damage taken last frame != 0 - subtract that amount from health */
 	void GetDamagedOnHit(Agame_PlayerCharacter* character);
 
+	/** If health = 0 - destroy players pawn */
 	void DieOn0HP();
 
+	/** Handles player pawn's respawning */
 	UFUNCTION (BlueprintCallable)
 	void Respawn();
 };

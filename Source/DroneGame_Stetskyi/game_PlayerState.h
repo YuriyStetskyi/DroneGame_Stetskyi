@@ -20,6 +20,10 @@ public:
 	void BeginPlay();
 	void Tick(float DeltaTime);
 
+
+
+	// HEALTH ///////////////////////////////////////////////////////////
+
 	/** Players current health */
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, category = "cpp_State")
 	int playerHealth;
@@ -31,6 +35,21 @@ public:
 	/** Players maximum health */
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, category = "cpp_State")
 	int maxHealth;
+
+	/** Depletes ammo on damaged */
+	void DepleteHealth(int amount);
+
+	/** Replenish Health with specified amount, but not more than max health
+	*	@return Returns true if replenished health successfully */
+	bool ReplenishHealth(int amount);
+
+	/** True if player is currently alive */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, category = "cpp_State")
+	bool isAlive;
+
+
+
+	// AMMO /////////////////////////////////////////////////////////////
 
 	/** Players current ammo */
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, category = "cpp_State")
@@ -54,18 +73,13 @@ public:
 	/** Retruns true if plState has ammo */
 	bool HasAmmo();
 
-	/** Depletes ammo on damaged */
-	void DepleteHealth(int amount);
+	
 
-	/** Replenish Health with specified amount, but not more than max health
-	*	@return Returns true if replenished health successfully */
-	bool ReplenishHealth(int amount);
+	// RESPAWN LOCATION /////////////////////////////////////////////////
 
-	/** True if player is currently alive */
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, category = "cpp_State")
-	bool isAlive;
-
+	/** Sets players future respawn location */ 
 	void SetRespawnLocation(FVector location, FRotator rotation);
 	
+	/** Player pawn's spawn location */
 	FTransform spawnLocation;
 };

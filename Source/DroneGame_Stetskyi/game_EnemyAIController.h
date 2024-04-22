@@ -15,9 +15,6 @@ class DRONEGAME_STETSKYI_API Agame_EnemyAIController : public AAIController
 {
 	GENERATED_BODY()
 
-
-
-
 	/** Shoots a projectile */
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 	void ShootAtDirection(FVector shootDirection);

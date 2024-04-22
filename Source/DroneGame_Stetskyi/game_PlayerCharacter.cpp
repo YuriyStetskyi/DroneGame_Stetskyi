@@ -45,8 +45,6 @@ void Agame_PlayerCharacter::BeginPlay()
 void Agame_PlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	cameraForwVector = camera->GetForwardVector();
 }
 
 void Agame_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

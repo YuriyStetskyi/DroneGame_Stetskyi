@@ -4,9 +4,6 @@
 
 #include "CoreMinimal.h"
 
-/**
- * 
- */
 class DRONEGAME_STETSKYI_API game_Enums
 {
 public:
